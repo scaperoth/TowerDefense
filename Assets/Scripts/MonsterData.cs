@@ -82,6 +82,9 @@ public class MonsterData : MonoBehaviour {
 		}
 	}
 
+	/// <summary>
+	/// Increases the level.
+	/// </summary>
 	public void increaseLevel() {
 		if (currentLevelIndex < levels.Count - 1) {
 			CurrentLevel = levels[currentLevelIndex + 1];

@@ -55,15 +55,24 @@ public class GameManagerBehavior : MonoBehaviour {
 
 	#region Mono Behaviours
 
+	/// <summary>
+	/// Awake this instance.
+	/// </summary>
 	void Awake(){
 		Instance = this;
 	}
 
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start(){
 		goldLabelText = goldLabel.GetComponent<Text> ();
 		Gold = 1000;
 	}
 
+	/// <summary>
+	/// Raises the destroy event.
+	/// </summary>
 	void OnDestroy(){
 		applicationIsQuitting = true;
 	}

@@ -22,6 +22,9 @@ public class PlaceMonster : MonoBehaviour {
 
 	#region Mono Behaviours
 
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
 	void Start(){
 		audioSource = gameObject.GetComponent<AudioSource> ();
 		gameManager = GameManagerBehavior.Instance;
@@ -69,6 +72,10 @@ public class PlaceMonster : MonoBehaviour {
 		return monster == null && gameManager.Gold >= cost;
 	}
 
+	/// <summary>
+	/// checks if can upgrade monster
+	/// </summary>
+	/// <returns><c>true</c>, if can upgrade monster, <c>false</c> otherwise.</returns>
 	private bool canUpgradeMonster() {
 		if (monster != null) {
 			nextLevel = monsterData.getNextLevel();
