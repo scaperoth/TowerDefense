@@ -3,16 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaceMonster : MonoBehaviour {
+
+	#region Public Vars
+
 	public GameObject monsterPrefab;
+
+	#endregion
+
+	#region Private Vars
+
+	private GameManagerBehavior gameManager;
 	private GameObject monster;
 	private AudioSource audioSource;
 	private MonsterData monsterData;
 	private MonsterLevel nextLevel;
 
+	#endregion
+
 	#region Mono Behaviours
 
 	void Start(){
 		audioSource = gameObject.GetComponent<AudioSource> ();
+		gameManager = GameManagerBehavior.Instance;
+		monsterData = monsterPrefab.GetComponent<MonsterData> ();
 	}
 
 	#endregion
@@ -35,12 +48,13 @@ public class PlaceMonster : MonoBehaviour {
 
 			// play sound
 			audioSource.PlayOneShot(audioSource.clip);
+			gameManager.Gold -= monsterData.CurrentLevel.cost;
 
 		} else if (canUpgradeMonster()) {
 			
 			monsterData.increaseLevel();
 			audioSource.PlayOneShot(audioSource.clip);
-			// TODO: Deduct gold
+			gameManager.Gold -= monsterData.CurrentLevel.cost;
 		}
 	}
 	#endregion
@@ -51,14 +65,15 @@ public class PlaceMonster : MonoBehaviour {
 	/// </summary>
 	/// <returns><c>true</c>, if monster can be placed, <c>false</c> otherwise.</returns>
 	private bool canPlaceMonster() {
-		return monster == null;
+		int cost = monsterData.levels[0].cost;
+		return monster == null && gameManager.Gold >= cost;
 	}
 
 	private bool canUpgradeMonster() {
 		if (monster != null) {
 			nextLevel = monsterData.getNextLevel();
 			if (nextLevel != null) {
-				return true;
+				return gameManager.Gold >= nextLevel.cost;
 			}
 		}
 		return false;
